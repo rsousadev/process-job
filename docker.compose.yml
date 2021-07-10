@@ -1,0 +1,35 @@
+version: "3"
+services:
+  django:
+    build:
+      dockerfile: ./docker/docker.dockerfile
+      context: .
+    volumes:
+      - ./:/usr/src/system
+    container_name: system
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    networks:
+      - production-network
+    depends_on:
+      - "postgres"
+
+  postgres:
+    container_name: postgres
+    image: postgres
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: database
+      PGDATA: /data/postgres:rw
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - production-network
+
+networks:
+  production-network:
+    driver: bridge
