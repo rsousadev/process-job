@@ -19,7 +19,7 @@ class Address(models.Model):
 
 class Student(models.Model):
     name = models.CharField(max_length=50, null=False, blank=False)
-    email = models.EmailField(null=False, blank=False)
+    email = models.EmailField(null=False, blank=False, unique=True)
     enrollment_date = models.DateField(null=False, blank=False)
     school_year = models.IntegerField(null=False, blank=False, validators=[
             MinValueValidator(1)
